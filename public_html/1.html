@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
+
+
+<style>
+    
+      *{ 
+            margin:0; 
+            padding:0; 
+            box-sizing:border-box; 
+        } 
+
+              
+
+        html,body  
+        { 
+             height:100%;
+             background: #ebebfa;
+        }
+        
+         .navbar li a, .navbar .navbar-brand 
+            { 
+                color: darkgray;
+                
+            }
+            
+            .navbar-nav li a:hover 
+            {
+                color:black;
+            }
+                
+            .navbar-nav li.active a 
+            {
+              color:black;
+             
+            }
+            
+            .navbar-default .navbar-toggle 
+            {
+              border-color: transparent;
+            }
+            
+        
+        .Content 
+        { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center;
+            margin-bottom: 35px;
+            margin-top: 10px;
+        } 
+
+        form{
+            width:400px; 
+            justify-content: center; 
+            align-items: center; 
+            border: 3px solid #f1f1f1; 
+            padding:2rem; 
+            background:#ffffff; 
+            margin-top:20px;;
+        }
+        
+       
+        .form-control
+        {
+            font-size: 14px;
+            font-family:Arial, Helvetica, sans-serif;
+            width:320px;
+        }
+
+        .form-header 
+
+        { 
+            text-align:center; 
+            margin-bottom:2rem; 
+        }
+        
+        .form-button 
+        { 
+            height:100%; 
+            width:100%; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            margin-bottom:1rem; 
+        } 
+
+        .button:hover  
+
+        { 
+            background-color: #69c8e7; 
+            opacity:0.8; 
+
+        } 
+
+        .button 
+        { 
+             background-color: #69d2e7; 
+             border: 1px solid #ddd; 
+             color: #ffffff;
+             padding:10px;
+             
+        }
+        
+        .error {
+            color: red;
+            font-size: 90%;
+        }
+        
+        .row {
+            padding-bottom: 10px;
+            width:320px;
+        }
+
+</style>
+
+<script >
+    
+    function printError(elemId,hintMsg){
+        document.getElementById(elemId).innerHTML=hintMsg;
+    }
+    function validateForm()
+    {
+         // Retrieving the values of form elements 
+        var name = document.myform.full_name.value;
+        var mobile = document.myform.contact.value;
+        var password=document.myform.password.value;
+        var confirm=document.myform.confirm.value;
+        var address=document.myform.address.value;
+        var address2=document.myform.address2.value;
+        
+      
+	// Defining error variables with a default value
+        var nameErr = emailErr = mobileErr = passwordErr = confirmErr = addressErr = true;
+    
+    // Validate name
+        if(name ==="") {
+            printError("nameErr", "Please enter your name");
+        } else {
+            var regex = /^[a-zA-Z\s]+$/;                
+            if(regex.test(name) === false) {
+                printError("nameErr", "Please enter a valid name");
+            } else {
+                printError("nameErr", "");
+                nameErr = false;
+            }
+        }
+        
+        if(password===""){
+            printError("passwordErr","Please enter password");
+        }else{
+            var regex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+            if(regex.test(password)===false){
+                    printError("passwordErr","Enter password between 6 to 20 characters which contain at least one numeric digit,one uppercase and one lowercase letter.");
+                }else{
+                    printError("passwordErr","");
+                    passwordErr=false;
+                }
+            }
+        
+        if(confirm===""){
+            printError("confirmErr","Not same password");
+        }else{
+            var regex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+            if(regex.test(confirm)===false){
+                    printError("confirmErr","Enter password between 6 to 20 characters which contain at least one numeric digit,one uppercase and one lowercase letter.");
+                }else{
+                    printError("confirmErr","");
+                    confirmErr=false;
+                }
+            }
+            
+        // Validate mobile number
+        if(mobile ==="") {
+            printError("mobileErr", "Please enter your mobile number");
+        } else {
+            var regex = /^[1-9]\d{9}$/;
+            if(regex.test(mobile) === false) {
+                printError("mobileErr", "Please enter a valid 10 digit mobile number");
+            } else{
+                printError("mobileErr", "");
+                mobileErr = false;
+            }
+        }
+        
+        if(address ==="") {
+            printError("addressErr", "Please enter address");
+        } else {
+            var regex = /^[0-9a-zA-Z]+$/;
+            if(regex.test(address) === false) {
+                printError("addressErr", "Address must have alphanumeric characters only");
+            } else{
+                printError("addressErr", "");
+                addressErr = false;
+            }
+        }
+        
+        if(address2 ==="") {
+            printError("address2Err", "Please enter address");
+        } else {
+            var regex = /^[0-9a-zA-Z]+$/;
+            if(regex.test(address2) === false) {
+                printError("address2Err", "Address must have alphanumeric characters only");
+            } else{
+                printError("address2Err", "");
+                address2Err = false;
+            }
+        }
+       
+        
+        if((nameErr || passwordErr || mobileErr|| confirmErr|| addressErr || address2Err) === true) {
+            return false;
+        } else {
+            // Creating a string from input data for preview
+            var dataPreview = "You've entered the following details: \n" +
+                              "Name: " + name + "\n" +
+                              "Password" + password +"\n" +
+                              "Confirm Password" + confirm +"\n" +
+                              "Mobile Number: " + mobile + "\n" +
+                              "Address" + address + "\n"+
+                             
+            // Display input data in a dialog box before submitting the form
+            alert(dataPreview);
+        }
+            
+          
+    };
+</script>
+   
+<body>
+    <nav class="navbar navbar-expand-lg bg-white static-top">
+        <div class="container">
+            
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                <a class="nav-link" href="#">Home
+                    <span class="sr-only">(current)</span>
+                </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign Up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+        <div class="Content">
+            <form name="myform" method="post" onsubmit="return validateForm()">
+                <div class ="form-header">
+
+                    <h2> Sign Up</h2>
+                    <p>Please Fill In The Form</p>
+
+                </div> 
+
+                <div class="form-group"> <!-- Full Name -->
+                        <label for="full_name_id" class="control-label">Name</label>
+                        <input type="text" class="form-control" id="full_name_id" name="full_name" placeholder="Enter Name">
+                        <div class="error" id="nameErr"></div>
+                </div>
+                
+                
+
+                <div class="form-group"> <!-- password -->
+                        <label for="password_id" class="control-label">Password</label>
+                        <input type="text" class="form-control" id="password_id" name="password" placeholder="Enter Password">
+                        <div class="error" id="passwordErr"></div>
+                </div>	
+
+                <div class="form-group"> <!-- confirm pw -->
+                        <label for="confirm_pw_id" class="control-label">Confirm Password</label>
+                        <input type="text" class="form-control" id="confirm_pw_id" name="confirm" placeholder="Confirm Password">
+                        <div class="error" id="confirmErr"></div>
+                </div>
+
+                <div class="form-group"> <!--contact num-->
+                        <label for="contact_num_id" class="control-label">Contact Number</label>
+                        <input type="text" class="form-control" id="contact_num_id" name="contact" placeholder="Contact Number">
+                        <div class="error" id="mobileErr"></div>
+                </div>	
+
+                <div class="form-group"> <!-- Street 1 -->
+                        <label for="address1_id" class="control-label">Address </label>
+                        <input type="text" class="form-control" id="address1_id" name="address" placeholder="Enter Address">
+                        <div class="error" id="addressErr"></div>
+                </div>
+                
+                <div class="form-group"> <!-- Street 2 -->
+                        <label for="address2_id" class="control-label">Address 2</label>
+                        <input type="text" class="form-control" id="address2_id" name="address2" placeholder="Enter Address">
+                        <div class="error" id="address2Err"></div>
+                </div>
+
+                <div class="agree"> 
+                        <input type="checkbox" name="agree" id="agree"> 
+                        <label for="agree">I accept the <a href="#">Terms of Use & Privacy Policy</a></label> 
+                </div> 
+
+                <div class="form-button"> <!-- Submit Button -->
+                        <button class="button" id="submit" >Sign Up</button>
+                </div>
+            </form>	
+        </div>
+</body>           
+
+</html>
+
+
